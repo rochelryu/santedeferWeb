@@ -31,7 +31,7 @@ export class AdminController {
 
   @Get()
   async indexAdmin(@Request() req, @Res() res: Response) {
-      const newAdmin = await this.adminService.createAdmin({name: 'Santé de Fer', email: 'admin@santedefer.com',password: '01234567', numero: '01234567'});
+      //const newAdmin = await this.adminService.createAdmin({name: 'Santé de Fer', email: 'admin@santedefer.com',password: '01234567', numero: '01234567'});
     if(req.session.sante && req.session.sante.level === 3) {
       const user = await this.adminService.verifyAdminById(req.session.sante.id);
       const totalClient = await this.clientService.getCountTotalClient();
