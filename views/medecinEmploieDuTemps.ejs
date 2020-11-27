@@ -1,0 +1,224 @@
+<%- include("partials/headMedecin"); %>
+                    
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                    <% if (!medecin.isActivate) { %>
+                        <div class="app-page-title">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-heading">
+                                    <div class="page-title-icon">
+                                        <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
+                                        </i>
+                                    </div>
+                                    <div>Gestion Emploie du temps
+                                        <div class="page-title-subheading">laisser la case vide si vous n'êtes disponible en ce moment. si vous êtes prêt cliqué "Terminer"
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                        </div>
+                        <% } %>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="main-card mb-3 card">
+                                    <form action="/medecin/emploieDuTemps" method="post">
+                                        <div class="card-body"><h5 class="card-title">Mon Emploie du temps</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th><p class="text-center">07H-08H</p></th>
+                                                        <th><p class="text-center">08H-09H</p></th>
+                                                        <th><p class="text-center">09H-10H</p></th>
+                                                        <th><p class="text-center">10H-11H</p></th>
+                                                        <th><p class="text-center">11H-12H</p></th>
+                                                        <th><p class="text-center">12H-13H</p></th>
+                                                        <th><p class="text-center">13H-14H</p></th>
+                                                        <th><p class="text-center">14H-15H</p></th>
+                                                        <th><p class="text-center">15H-16H</p></th>
+                                                        <th><p class="text-center">16H-17H</p></th>
+                                                        <th><p class="text-center">17H-18H</p></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <th><span class="badge badge-dark">LUNDI</span></th>
+                                                        <% medecin.firstDay.forEach(function(value, index){ %>
+                                                        <th>
+                                                        
+                                                            <div>
+                                                                <input type="text" name="firstDay" multiple value="<%= value.value %>">
+                                                                <div class="position-relative form-check">
+                                                                <% if (value.isBusy) { %>
+                                                                    <input type="hidden" name="firstDayCheckbox" multiple value="on">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" checked> Pas en service</label>
+                                                                <% } else { %>
+                                                                    <input type="hidden" name="firstDayCheckbox" multiple value="">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" multiple> Pas en service</label>
+                                                                <% } %>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </th>
+                                                        <% }); %>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <th><span class="badge badge-dark">MARDI</span></th>
+                                                        <% medecin.secondDay.forEach(function(value, index){ %>
+                                                        <th>
+                                                        
+                                                            <div>
+                                                                <input type="text" name="secondDay" multiple value="<%= value.value %>">
+                                                                <div class="position-relative form-check">
+                                                                <% if (value.isBusy) { %>
+                                                                    <input type="hidden" name="secondDayCheckbox" multiple value="on">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" checked> Pas en service</label>
+                                                                <% } else { %>
+                                                                    <input type="hidden" name="secondDayCheckbox" multiple value="">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" multiple> Pas en service</label>
+                                                                <% } %>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </th>
+                                                        <% }); %>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><span class="badge badge-dark">MERCREDI</span></th>
+                                                        <% medecin.thirdDay.forEach(function(value, index){ %>
+                                                        <th>
+                                                        
+                                                            <div>
+                                                                <input type="text" name="thirdDay" multiple value="<%= value.value %>">
+                                                                <div class="position-relative form-check">
+                                                                <% if (value.isBusy) { %>
+                                                                    <input type="hidden" name="thirdDayCheckbox" multiple value="on">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" checked> Pas en service</label>
+                                                                <% } else { %>
+                                                                    <input type="hidden" name="thirdDayCheckbox" multiple value="">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" multiple> Pas en service</label>
+                                                                <% } %>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </th>
+                                                        <% }); %>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><span class="badge badge-dark">JEUDI</span></th>
+                                                        <% medecin.fourDay.forEach(function(value, index){ %>
+                                                        <th>
+                                                        
+                                                            <div>
+                                                                <input type="text" name="fourDay" multiple value="<%= value.value %>">
+                                                                <div class="position-relative form-check">
+                                                                <% if (value.isBusy) { %>
+                                                                    <input type="hidden" name="fourDayCheckbox" multiple value="on">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" checked> Pas en service</label>
+                                                                <% } else { %>
+                                                                    <input type="hidden" name="fourDayCheckbox" multiple value="">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" multiple> Pas en service</label>
+                                                                <% } %>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </th>
+                                                        <% }); %>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><span class="badge badge-dark">VENDREDI</span></th>
+                                                        <% medecin.fiveDay.forEach(function(value, index){ %>
+                                                        <th>
+                                                        
+                                                            <div>
+                                                                <input type="text" name="fiveDay" multiple value="<%= value.value %>">
+                                                                <div class="position-relative form-check">
+                                                                <% if (value.isBusy) { %>
+                                                                    <input type="hidden" name="fiveDayCheckbox" multiple value="on">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" checked> Pas en service</label>
+                                                                <% } else { %>
+                                                                    <input type="hidden" name="fiveDayCheckbox" multiple value="">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" multiple> Pas en service</label>
+                                                                <% } %>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </th>
+                                                        <% }); %>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><span class="badge badge-dark">SAMEDI</span></th>
+                                                        <% medecin.sixDay.forEach(function(value, index){ %>
+                                                        <th>
+                                                        
+                                                            <div>
+                                                                <input type="text" name="sixDay" multiple value="<%= value.value %>">
+                                                                <div class="position-relative form-check">
+                                                                <% if (value.isBusy) { %>
+                                                                    <input type="hidden" name="sixDayCheckbox" multiple value="on">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" checked> Pas en service</label>
+                                                                <% } else { %>
+                                                                    <input type="hidden" name="sixDayCheckbox" multiple value="">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" multiple> Pas en service</label>
+                                                                <% } %>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </th>
+                                                        <% }); %>
+                                                    </tr>
+                                                    <tr>
+                                                        <th><span class="badge badge-dark">DIMANCHE</span></th>
+                                                        <% medecin.sevenDay.forEach(function(value, index){ %>
+                                                        <th>
+                                                        
+                                                            <div>
+                                                                <input type="text" name="sevenDay" multiple value="<%= value.value %>">
+                                                                <div class="position-relative form-check">
+                                                                <% if (value.isBusy) { %>
+                                                                    <input type="hidden" name="sevenDayCheckbox" multiple value="on">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" checked> Pas en service</label>
+                                                                <% } else { %>
+                                                                    <input type="hidden" name="sevenDayCheckbox" multiple value="">
+                                                                    <label class="form-check-label"><input type="checkbox" class="form-check-input" multiple> Pas en service</label>
+                                                                <% } %>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </th>
+                                                        <% }); %>
+                                                    </tr>
+                                                    
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="card-footer">
+                                                
+                                                <% if (!medecin.isActivate) { %>
+                                                <button type="submit" class="btn btn-outline-primary btn-sm">Enregistrer & Continuer plutard</button>
+                                                <div style="min-width: 20px">
+                                                    
+                                                </div>
+                                                <button type="button" class="btn btn-success btn-sm" id="terminer">Terminer</button>
+                                                <% } else { %>
+                                                <button type="submit" class="btn btn-outline-primary btn-sm">Enregistrer les modification</button>
+                                                <% } %>
+                                                
+                                            </div>
+                                    </form>
+                                            
+                                        </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+
+<%- include("partials/footer"); %>   
+</body>
+</html>

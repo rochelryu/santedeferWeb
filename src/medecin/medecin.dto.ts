@@ -1,0 +1,16 @@
+export interface UpdateEmploieDuTemps {
+    firstDay: string[],
+    firstDayCheckbox: string[],
+    secondDay: string[],
+    secondDayCheckbox: string[],
+    thirdDay: string[],
+    thirdDayCheckbox: string[],
+    fourDay: string[],
+    fourDayCheckbox: string[],
+    fiveDay: string[],
+    fiveDayCheckbox: string[],
+    sixDay: string[],
+    sixDayCheckbox: string[],
+    sevenDay: string[],
+    sevenDayCheckbox: string[],
+}

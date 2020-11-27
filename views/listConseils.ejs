@@ -1,0 +1,77 @@
+<%- include("partials/head"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        
+                        <div class="container-fluid">
+                            <div class="row">
+                            <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Enregistrement d'un Conseil</h5>
+                                                <form class="" method="post" action="/admin/createConseils">
+                                                            <div class="position-relative form-group">
+                                                                <label for="titre" class="">Titre conseil</label>
+                                                                <input name="title" id="titre" placeholder="Penser à faire des test de depistache, etc..." type="text" class="form-control" required>
+                                                            </div>
+                                                            <div class="position-relative form-group">
+                                                                <label for="content" class="">Contenu</label>
+                                                                <textarea rows="4" name="content" id="content" class="form-control" required></textarea>
+                                                            </div>
+                                                            <input name="type" id="type" type="hidden" value="<%= info.type %>">
+                                                            
+                                                            
+                                                            <button type="submit" class="mt-1 btn btn-primary">ENREGISTRER</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des Conseils de 
+                                            <% if (info.type === 1) {%>
+                                            <span class="typeConseils">3 à 11 ans</span>
+                                            <% } else if (info.type === 2) { %>
+                                            <span class="typeConseils">12 à 21 ans</span>
+                                            <% } else if (info.type === 3)  {  %>
+                                            <span class="typeConseils">22 à 40 ans</span>
+                                            <% } else if (info.type === 4)  {  %>
+                                            <span class="typeConseils">+ 40 ans</span>
+                                            <% } %>
+                                            </h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>contenu </th>
+                                                        <th>Action </th>
+                                                        
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allConseils.forEach(function(value){ %>
+                                                        <tr>
+                                                            <td>
+                                                            <h5><%= value.title %></h5>
+                                                            <p><%= value.content %></p>
+                                                            </td>
+                                                            <td>
+                                                            <button type="button" class="btn btn-sm btn-outline-dark edit" data-modal="<%= value._id %>">Modifier</button>
+                                                            <br>
+                                                            <br>
+                                                            <button type="button" class="btn btn-sm btn-danger delete" data-modal="<%= value._id %>">Supprimer</button>
+                                                            </td>
+                                                            
+                                                        </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>

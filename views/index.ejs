@@ -1,0 +1,162 @@
+<%- include("partials/head"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        <div class="row">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-midnight-bloom">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Total Utilisateurs</div>
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <div class="widget-numbers text-white"><span><%= info.totalClient %></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-arielle-smile">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Total Medecin</div>
+                                            <!--div-- class="widget-subheading">Total Clients Profit</!--div-->
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <div class="widget-numbers text-white"><span><%= info.totalMedecin %></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content bg-grow-early">
+                                    <div class="widget-content-wrapper text-white">
+                                        <div class="widget-content-left">
+                                            <div class="widget-heading">Total Rendez-vous</div>
+                                        </div>
+                                        <div class="widget-content-right">
+                                            <div class="widget-numbers text-white"><span><%= info.totalRdv %></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Nouveau Client</div>
+                                                <div class="widget-subheading">Pour aujourd'hui</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-success"><%= info.newClient %></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Rendez-vous Sandard</div>
+                                                <div class="widget-subheading">Pour aujourd'hui</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-warning"><%= info.rdvStandardForToday %></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Rendez-vous Fidélisé</div>
+                                                <div class="widget-subheading">Pour aujourd'hui</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-danger"><%= info.rdvFidelForToday %></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">RENDEZ-VOUS PRIT POUR AUJOURD'HUI
+                                        
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th class="text-center">Clinique</th>
+                                                <th class="text-center">Status</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% info.allRdvForToDay.forEach(function(value){ %>
+                                                <tr>
+                                                    <td>
+                                                        <div class="widget-content p-0">
+                                                            <div class="widget-content-wrapper">
+                                                                <div class="widget-content-left mr-3">
+                                                                    <div class="widget-content-left">
+                                                                        <img width="40" class="img-profil-medecin rounded-circle" src="../assets/images/<%= value.client.images %>" alt="<%= value.client.name %>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="widget-content-left flex2">
+                                                                    <div class="widget-heading"><%= value.client.name %></div>
+                                                                    <div class="widget-subheading opacity-7"><%= value.client.images %></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center"><%= value.lieuDuRendezVous %></td>
+                                                    <td class="text-center">
+                                                        
+                                                        <% if (value.isDone === 1) { %>
+                                                        <div class="badge badge-warning">
+                                                        Pas encore Consulté
+                                                        </div>
+                                                        <% }  else if (value.isDone === 3) { %>
+                                                        <div class="badge badge-success">
+                                                        Déjà Consulté
+                                                        </div>
+                                                        <% }  else { %>
+                                                        <div class="badge badge-success">
+                                                        Rendez vous manqué
+                                                        </div>
+                                                        <% } %>
+                                                        
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" id="PopoverCustomT-1" class="btn btn-primary btn-sm">Details</button>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>

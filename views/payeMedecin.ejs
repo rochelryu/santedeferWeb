@@ -1,0 +1,48 @@
+<%- include("partials/head"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des medecins</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Profil</th>
+                                                        <th>Nom </th>
+                                                        <th>Numero</th>
+                                                        <th>Adresse</th>
+                                                        <th>Budget</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allMedecin.forEach(function(value){ %>
+                                                        <tr>
+                                                            <td><img class="img-profil-medecin" src="../assets/images/avatars/profil/<%= value.images %>" alt=""></td>
+                                                            <td><%= value.name %></td>
+                                                            <td><%= value.numero %></td>
+                                                            <td><%= value.address %></td>
+                                                            <td><%= value.wallet %> F cfa</td>
+                                                            <td>
+                                                            <button type="button" class="btn btn-outline-light btn-sm payeMedecin" data-ref="<%= value._id %>">Payer maintenant</button>
+                                                            </td>
+                                                            
+                                                        </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<%- include("partials/headMedecin"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        
+                        <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                                    <span>Enregistrement</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-1">
+                                    <span>Ancien Rendez Vous</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2">
+                                    <span>Antecedent</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                                <div class="row">
+                                    <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Grid</h5>
+                                                <form class="">
+                                                <div class="position-relative row form-group"><label for="exampleSelect" class="col-sm-2 col-form-label">Pathologie</label>
+                                                        <div class="col-sm-10">
+                                                            <select name="pathologie" id="exampleSelect" class="form-control">
+                                                            <% info.pathologie.forEach(function(value){ %>
+                                                            <option value="<%= value._id %>"><%= value.name %></option>
+                                                            <% }); %>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="position-relative row form-group"><label for="exampleText" class="col-sm-2 col-form-label">Descritption Client</label>
+                                                        <div class="col-sm-10"><textarea name="description" id="exampleText" class="form-control"><%= info.rendezVous.description %></textarea></div>
+                                                    </div>
+                                                    <div class="position-relative row form-group"><label for="examplePassword" class="col-sm-2 col-form-label">Diagnostic</label>
+                                                        <div class="col-sm-10"><input name="diagnostic" id="examplePassword" placeholder="" type="text" class="form-control"></div>
+                                                        <div class="col-sm-10"><input name="_id" value="<%= info.rendezVous._id %>" type="hidden" class="form-control"></div>
+                                                    </div>
+                                                    <div class="position-relative row form-group"><label for="exampleEmail" class="col-sm-2 col-form-label">Resultat</label>
+                                                        <div class="col-sm-10"><input name="pathologie" id="exampleEmail" placeholder="" type="text" class="form-control"></div>
+                                                    </div>
+                                                    
+                                                    
+                                                    <div class="position-relative row form-group"><label for="exampleText" class="col-sm-2 col-form-label">Votre intervention</label>
+                                                        <div class="col-sm-10"><textarea name="intervention" id="exampleText" class="form-control" placeholder="Vous pouvez faire entrer ici votre intervention, la suite des operation, le traitement, s'il doit avoir une autre visite et pour quand."></textarea></div>
+                                                    </div>
+
+
+                                                    
+                                                    <div class="position-relative row form-check">
+                                                        <div class="col-sm-10 offset-sm-2">
+                                                            <button type="submit" class="btn btn-secondary">Terminer</button>
+                                                            <button type="button" class="btn btn-danger absent">Absent</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des Anciens Rendez Vous</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Pathologie</th>
+                                                        <th>Resultat</th>
+                                                        <th>Diagnostic</th>
+                                                        <th>intervention</th>
+                                                        <th>Date Rendez Vous</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allRendezVousTrueFormat.forEach(function(value, index){ %>
+                                                    <tr>
+                                                        <th scope="row"><%= value.pathologieName %></th>
+                                                        <th><%= value.resultat %></th>
+                                                        <th><%= value.diagnostic %></th>
+                                                        <th><%= value.intervention %></th>
+                                                        <th><%= value.dateDuRendezVous %></th>
+                                                    </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane tabs-animation fade" id="tab-content-2" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des pathologies</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Pathologie</th>
+                                                        <th>Resultat</th>
+                                                        <th>description</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.rendezVous.client.antecendent.forEach(function(value, index){ %>
+                                                    <tr>
+                                                        <th scope="row"><%= value.pathologie %></th>
+                                                        <th><%= value.resultat %></th>
+                                                        <th><%= value.description %></th>
+                                                    </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>

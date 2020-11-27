@@ -1,0 +1,50 @@
+<%- include("partials/headMedecin"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        
+                        
+                        <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Enregistrement d'une Pathologie</h5>
+                                                <form class="" method="post" action="/medecin/createPathologie">
+                                                            <div class="position-relative form-group"><label for="namePahologie" class="">Nom Pathologie</label><input name="name" id="namePahologie" placeholder="Paludisme, Analyse dentaire, etc..." type="text" class="form-control" required></div>
+                                                            
+                                                            
+                                                            <button class="mt-1 btn btn-primary">ENREGISTRER</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des pathologies</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Nom Pathologie</th>
+                                                        <th>Specialité</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allPathologie.forEach(function(value, index){ %>
+                                                    <tr>
+                                                        <th scope="row"><%= index + 1 %></th>
+                                                        <th><%= value.name %></th>
+                                                        <th><%= value.speciality.name %></th>
+                                                    </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                    </div>
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>

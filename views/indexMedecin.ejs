@@ -1,0 +1,133 @@
+<%- include("partials/headMedecin"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Total Rendez-vous</div>
+                                                <div class="widget-subheading">Depuis votre entré</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-success"><%= medecin.mesRendezVous.length %></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Rendez-vous</div>
+                                                <div class="widget-subheading">Pour aujourd'hui</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-warning"><%= info.rdvNumberForToday %></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card mb-3 widget-content">
+                                    <div class="widget-content-outer">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Total Rendez-vous</div>
+                                                <div class="widget-subheading">Annulés</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-danger"><%= info.rdvNumberDrop %></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">RENDEZ-VOUS PRIS POUR AUJOURD'HUI
+                                        
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Nom Complet</th>
+                                                <th class="text-center">Adresse</th>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <% info.allRdvForTay.forEach(function(value){ %>
+                                                <tr>
+                                                    <td>
+                                                        <div class="widget-content p-0">
+                                                            <div class="widget-content-wrapper">
+                                                                <div class="widget-content-left mr-3">
+                                                                    <div class="widget-content-left">
+                                                                        <img width="40" class="img-profil-medecin rounded-circle" src="../assets/images/<%= value.client.images %>" alt="<%= value.client.name %>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="widget-content-left flex2">
+                                                                    <div class="widget-heading"><%= value.client.name %></div>
+                                                                        <div class="widget-subheading opacity-7">
+                                                                            <% if (value.isMe) { %>
+                                                                            <p>Pour lui même, <script>calculeYear("<%= value.client.birthDate %>")</script> ans, <br> Groupe Sanguin: <%= value.client.groupeSanguin %> </p>
+
+                                                                            <% }  else { %>
+                                                                            <p>Pour <%= value.otherUser.name %>, <%= value.otherUser.address %> et a  <%= value.otherUser.old %> ans</p>
+                                                                            <% } %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="text-center"><%= value.client.lieuDuRendezVous %></td>
+                                                    <td class="text-center"><%= value.dateDuRendezVous %></td>
+                                                    <td class="text-center">
+                                                        <% if (value.isDone === 1) { %>
+                                                        <div class="badge badge-warning">
+                                                        Pas encore Consulté
+                                                        </div>
+                                                        <% }  else if (value.isDone === 3) { %>
+                                                        <div class="badge badge-success">
+                                                        Déjà Consulté
+                                                        </div>
+                                                        <% }  else { %>
+                                                        <div class="badge badge-success">
+                                                        Rendez vous manqué
+                                                        </div>
+                                                        <% } %>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="/medecin/viewRdv?id=<%= value._id %>" class="btn btn-primary btn-sm">Details</button>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>

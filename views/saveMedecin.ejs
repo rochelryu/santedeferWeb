@@ -1,0 +1,195 @@
+<%- include("partials/head"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        <div class="app-page-title">
+                            <div class="page-title-wrapper">
+                                <div class="page-title-heading">
+                                    <div class="page-title-icon">
+                                        <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
+                                        </i>
+                                    </div>
+                                    <div>Gestion Medecin
+                                        <div class="page-title-subheading">C'est la gestion primaire de tout le système. elle est primordiale au bon fonctionnement
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="page-title-actions">
+                                    <button type="button" data-toggle="tooltip" title="Example Tooltip" data-placement="bottom" class="btn-shadow mr-3 btn btn-dark">
+                                        <i class="fa fa-star"></i>
+                                    </button>
+                                    
+                                </div>    </div>
+                        </div>
+                        <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#tab-content-0">
+                                    <span>Medecin</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#tab-content-1">
+                                    <span>Pathologie</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#tab-content-2">
+                                    <span>Specialité</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Enregistrement d'un medecin</h5>
+                                                <form class="" method="post" action="/admin/createMedecin" enctype="multipart/form-data">
+                                                    <div class="position-relative form-group"><label for="exampleEmail" class="">Email</label><input name="email" id="exampleEmail" placeholder="Email du medecin" type="email" class="form-control" required></div>
+                                                    <div class="position-relative form-group"><label for="name" class="">Nom Complet</label><input name="name" id="name" placeholder="Nom complet du medecin" type="text" class="form-control" required></div>
+                                                    <div class="position-relative form-group"><label for="numero" class="">Numero</label><input name="numero" id="numero" placeholder="Numero du medecin" type="number" class="form-control" required></div>
+                                                    <div class="position-relative form-group"><label for="examplePassword" class="">Mot de passe</label><input name="password" id="examplePassword" placeholder="password placeholder" type="password" required class="form-control"></div>
+                                                    <div class="position-relative form-group"><label for="exampleSelect" class="">Specialité</label><select name="speciality" id="exampleSelect" class="form-control">
+                                                        <% info.allSpeciality.forEach(function(value){ %>
+                                                        <option value="<%= value._id %>"><%= value.name %></option>
+                                                        <% }); %>
+                                                    </select></div>
+
+                                                    <div class="position-relative form-group"><label for="address" class="">Commune d'exercice</label><select name="address" id="address" class="form-control">
+                                                        
+                                                        <option value="Abobo">Abobo</option>
+                                                        <option value="Adjamé">Adjamé</option>
+                                                        <option value="Atécoubé">Atécoubé</option>
+                                                        <option value="Cocody">Cocody</option>
+                                                        <option value="Koumassi">Koumassi</option>
+                                                        <option value="Marcory">Marcory</option>
+                                                        <option value="Plateau">Plateau</option>
+                                                        <option value="Port-Bouet">Port-Bouet</option>
+                                                        <option value="Treichville">Treichville</option>
+                                                        <option value="Yopougon">Yopougon</option>
+                                                        
+                                                    </select></div>
+                                                    
+                                                    <div class="position-relative form-group"><label for="exampleFile" class="">Image de profil</label><input name="images" id="exampleFile" type="file" class="form-control-file">
+                                                        
+                                                    </div>
+                                                    <button class="mt-1 btn btn-primary">ENREGISTRER</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des medecins</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Profil</th>
+                                                        <th>Nom medecin</th>
+                                                        <th>Numero</th>
+                                                        <th>Specialité</th>
+                                                        <th>En Activité</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allMedecin.forEach(function(value){ %>
+                                                        <tr>
+                                                            <td><img class="img-profil-medecin" src="../assets/images/avatars/profils/<%= value.images %>" alt="<%= value.recovery %>"></td>
+                                                            <td><%= value.name %></td>
+                                                            <td><%= value.numero %></td>
+                                                            <td><%= value.speciality.name %></td>
+                                                            <td>
+                                                            <% if (value.isActivate) { %>
+                                                            <span class="badge badge-success">En Activité</span>
+                                                            <% }  else { %>
+                                                            <span class="badge badge-danger">Attente d'horaire</span>
+                                                            <% } %>
+                                                            
+                                                            </td>
+                                                            <td> <a class="btn btn-outline-dark btn-sm" href="/admin/viewMedecin?id=<%= value._id %>">Voir</a> </td>
+                                                    </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane tabs-animation fade" id="tab-content-1" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Enregistrement d'une Pathologie</h5>
+                                                <form class="" method="post" action="/admin/createSpeciality">
+                                                            <div class="position-relative form-group"><label for="nameSpeciality" class="">Nom Specialité</label><input name="name" id="nameSpeciality" placeholder="Généraliste, Dentiste, Genecologue, etc..." type="text" class="form-control" required></div>
+                                                            
+                                                            
+                                                            <button class="mt-1 btn btn-primary">ENREGISTRER</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des Specialités</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Nom Specialité</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allSpeciality.forEach(function(value, index){ %>
+                                                    <tr>
+                                                        <th scope="row"><%= index + 1 %></th>
+                                                        <th><%= value.name %></th>
+                                                    </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane tabs-animation fade" id="tab-content-2" role="tabpanel">
+                                <div class="row">
+                                    
+                                    <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des pathologies</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Nom Pathologie</th>
+                                                        <th>Specialité</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allPathologie.forEach(function(value, index){ %>
+                                                    <tr>
+                                                        <th scope="row"><%= index + 1 %></th>
+                                                        <th><%= value.name %></th>
+                                                        <th><%= value.speciality.name %></th>
+                                                    </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>
