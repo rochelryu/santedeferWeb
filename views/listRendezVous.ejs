@@ -1,0 +1,58 @@
+<%- include("partials/head"); %>
+                <div class="app-main__outer">
+                    <div class="app-main__inner">
+                        
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <div class="main-card mb-3 card">
+                                            <div class="card-body"><h5 class="card-title">Liste des medecins</h5>
+                                                <table class="mb-0 table table-hover table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Medecin</th>
+                                                        <th>Lieu</th>
+                                                        <th>Statut</th>
+                                                        <th>Date de rendez-Vous</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <% info.allClient.forEach(function(value){ %>
+                                                        <tr>
+                                                            <td><%= value.client.name %><br><%= value.client.numero %></td>
+                                                            <td><%= value.medecinTraitant.name %><br><%= value.client.numero %></td>
+                                                            <td><%= value.lieuDuRendezVous %></td>
+                                                            <td><% if (value.isDone === 1) { %>
+                                                        <div class="badge badge-warning">
+                                                        Pas encore Consulté
+                                                        </div>
+                                                        <% }  else if (value.isDone === 3) { %>
+                                                        <div class="badge badge-success">
+                                                        Déjà Consulté
+                                                        </div>
+                                                        <% }  else { %>
+                                                        <div class="badge badge-success">
+                                                        Rendez vous manqué
+                                                        </div>
+                                                        <% } %></td>
+                                                            <td><script>
+                                                                formatDate("<%= value.dateDuRendezVous %>");
+                                                            </script></td>
+                                                            
+                                                        </tr>
+                                                    <% }); %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+<%- include("partials/footer"); %>        
+
+</body>
+</html>

@@ -228,6 +228,8 @@ export class ClientService {
         return new Promise(async next => {
           await this.rendezVousModel
             .find()
+            .populate('medecinTraitant')
+            .populate('client')
             .then(result => {
               next({ etat: true, result })
             })

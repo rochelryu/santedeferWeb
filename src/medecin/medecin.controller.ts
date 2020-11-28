@@ -54,21 +54,17 @@ export class MedecinController {
         @Get('/viewRdv')
     async viewRdv(@Request() req, @Res() res: Response, @Query() query) {
     if(req.session.sante && req.session.sante.level === 2) {
-      const allRendezVousTrueFormat = [];
       const medecin = await this.medecinService.verifyMedecinById(req.session.sante.id);
             const rendezVous = await this.clientService.getRendezVousByItem({_id: query.id});
             const pathologie = await this.adminService.getAllPathologieBySpeciality(medecin.result.speciality);
             this.logger.debug(rendezVous.result.client);
             const allRendezVous = await this.clientService.getClientByItem({_id:rendezVous.result.client._id});
-            for(let i = 0; i < allRendezVous.result.mesRendezVous.length; i++) {
-              const pathologieInfo = await this.adminService.getPathologieByItem({_id: allRendezVous.result.mesRendezVous[i].pathologie});
-              allRendezVousTrueFormat.push({...allRendezVous.result.mesRendezVous[i], pathologieName: pathologieInfo.result.name})
-            }
+            
       // list medecin with number Of Medecin, create speciality and more vision of Medecin
 			res.render('suivieRdv', {
         title: 'Rendez Vous',
         medecin: medecin.result,
-              info: {rendezVous:rendezVous.result, pathologie:pathologie.result, allRendezVousTrueFormat}
+              info: {rendezVous:rendezVous.result, pathologie:pathologie.result, allRendezVousTrueFormat: allRendezVous.result.mesRendezVous}
 			});
       
     } else {

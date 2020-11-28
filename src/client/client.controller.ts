@@ -58,8 +58,8 @@ export class ClientController {
         const result = user.result;
         const allRendezVousTrueFormat = [];
         for(let i = 0; i < user.result.mesRendezVous.length; i++) {
-              const pathologieInfo = await this.adminService.getPathologieByItem({_id: user.result.mesRendezVous[i].pathologie});
-              allRendezVousTrueFormat.push({...user.result.mesRendezVous[i], pathologieName: pathologieInfo.result.name, mdedecinSpecialist: pathologieInfo.result.speciality.name})
+              const medecinTraitant = await this.medecinService.getMedecinByItem({_id: user.result.mesRendezVous[i].medecinTraitant});
+              allRendezVousTrueFormat.push({dateDuRendezVous: user.result.mesRendezVous[i].dateDuRendezVous, lieuDuRendezVous: user.result.mesRendezVous[i].lieuDuRendezVous, medecinTraitantName: medecinTraitant.result.name, mdedecinSpecialist: medecinTraitant.result.speciality.name, mdedecinImages: medecinTraitant.result.images})
             }
         res.json({etat: user.etat, result, allRendezVousTrueFormat});
       } else {

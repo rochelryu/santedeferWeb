@@ -123,6 +123,26 @@ export class AdminController {
     }
   }
 
+  @Get('/listRendezVous')
+  async listRendezVous(@Request() req, @Res() res: Response) {
+    if(req.session.sante) {
+      const user = await this.adminService.verifyAdminById(req.session.sante.id)
+      if(user.etat) {
+      const allRendezVous = await this.clientService.getAllRendezVous();
+      const info = {allClient: allRendezVous.result};
+			res.render('listRendezVous', {
+        title: 'Rendez Vous list',
+        user: user.result,
+        info
+			});
+      } else {
+        res.redirect('/admin/login')
+      }
+    } else {
+       res.redirect('/')
+    }
+  }
+
   @Get('/payeMedecin')
   async payeMedecin(@Request() req, @Res() res: Response) {
     if(req.session.sante) {

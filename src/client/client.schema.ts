@@ -149,8 +149,7 @@ export const ClientSchema = new mongoose.Schema({
 
 export const RendezVousSchema = new mongoose.Schema({
     pathologie: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Pathologie',
+      type: String,
     },
     description: {
       type: String,
