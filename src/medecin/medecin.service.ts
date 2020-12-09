@@ -7,6 +7,7 @@ import { generateRecovery, generateEmploie } from 'src/common/functions/Globals'
 import { ReponseServiceGeneral } from 'src/common/interfaces/response.interfaces';
 import { UpdateEmploieDuTemps } from './medecin.dto';
 import { MedecinInterface } from './medecin.schema';
+import { TypeMedecin } from './medecin.schema';
 
 @Injectable()
 export class MedecinService {
@@ -138,6 +139,19 @@ export class MedecinService {
         });
       }
 
+      async getAllMedecinInWait(): Promise<ReponseServiceGeneral> {
+        return new Promise(async next => {
+          await this.medecinModel
+            .find({validateByAdmin: false})
+            .sort({dateReceive: -1 })
+            .populate('speciality')
+            .then(result => {
+              next({ etat: true, result })
+            })
+            .catch(error => next({ etat: false, error }));
+        });
+      }
+
 
       async getMedecinByItem(item): Promise<ReponseServiceGeneral> {
         return new Promise(async next => {
@@ -163,9 +177,11 @@ export class MedecinService {
             const newMedecin = new this.medecinModel({...medecin, password,recovery, images, firstDay: generate,secondDay: generate, thirdDay: generate, fourDay: generate, fiveDay: generate, sixDay: generate, sevenDay: generate});
           await newMedecin.save()
             .then(async result => {
-                next({ etat: true, result: {id: result._id, level: 2} })
+                next({ etat: true, result: {id: result._id, level: 2, validateByAdmin: result.validateByAdmin } })
             })
-            .catch(error => next({ etat: false, error }));
+            .catch(error => {
+              next({ etat: false, error })
+            });
         });
       }
 
@@ -178,7 +194,7 @@ export class MedecinService {
               if (result) {
                   result.loginDate = new Date();
                   await result.save().then((updateMedecin)=> {
-                    next({ etat: true, result: {id: result._id, level: 2} })
+                    next({ etat: true, result: {id: result._id, level: 2, validateByAdmin: result.validateByAdmin} })
                   }).catch(error => next({ etat: false, error }))
               }else {
                 next({ etat: false, error: new Error('Email ou Mot de passe incorrect') });

@@ -18,6 +18,7 @@ import { AdminService } from './admin.service';
 import { join } from 'path';
 import { editFileName, imageFileFilter } from '../common/functions/Globals';
 import { MedecinService } from '../medecin/medecin.service';
+import { TypeMedecin } from '../medecin/medecin.schema';
 import { ClientService } from 'src/client/client.service';
 @Controller('admin')
 export class AdminController {
@@ -74,9 +75,12 @@ export class AdminController {
       if(user.etat) {
       const allPathologie = await this.adminService.getAllPathologie();
       const allSpeciality = await this.adminService.getAllSpeciality();
-      const allMedecin = await this.medecinService.getAllMedecin();
+      const allMedecinInWait = await this.medecinService.getAllMedecinInWait();
+      const allMedecinFull = await this.medecinService.getAllMedecinByItem({validateByAdmin: true, typeMedecin: TypeMedecin.MEDECIN_FULL});
+      const allMedecinPart = await this.medecinService.getAllMedecinByItem({validateByAdmin: true, typeMedecin: TypeMedecin.MEDECIN_PARTIEL});
+      const allInfirmier = await this.medecinService.getAllMedecinByItem({validateByAdmin: true, typeMedecin: TypeMedecin.INFIRMIER});
 
-      const info = {allPathologie: allPathologie.result, allSpeciality: allSpeciality.result, allMedecin: allMedecin.result};
+      const info = {allPathologie: allPathologie.result, allSpeciality: allSpeciality.result, allMedecinFull: allMedecinFull.result,allMedecinPart: allMedecinPart.result,allInfirmier: allInfirmier.result, allMedecinInWait: allMedecinInWait.result};
       // list medecin with number Of Medecin, create speciality and more vision of Medecin
 			res.render('saveMedecin', {
         title: 'Medecin',

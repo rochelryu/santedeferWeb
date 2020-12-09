@@ -1,5 +1,10 @@
 import * as mongoose from 'mongoose';
 
+export enum TypeMedecin {
+  'MEDECIN_FULL' = 'MEDECIN_FULL',
+  'MEDECIN_PARTIEL' = 'MEDECIN_PARTIEL',
+  'INFIRMIER' = 'INFIRMIER',
+}
 export interface MedecinInterface extends mongoose.Document {
     name: string;
 
@@ -8,6 +13,7 @@ export interface MedecinInterface extends mongoose.Document {
     address: string;
     password: string;
     recovery: string;
+    matricule: string;
     wallet: number;
     mesRendezVous: string[];
     clientFidele: string[];
@@ -24,10 +30,15 @@ export interface MedecinInterface extends mongoose.Document {
     dateReceive: Date;
     speciality: string;
     isActivate: boolean;
+    validateByAdmin: boolean;
+    typeMedecin: TypeMedecin;
   }
 
   export const MedecinSchema = new mongoose.Schema({
     name: {
+      type: String,
+    },
+    matricule: {
       type: String,
     },
     images: {
@@ -43,6 +54,13 @@ export interface MedecinInterface extends mongoose.Document {
     isActivate: {
         type: Boolean,
         default: false,
+      },
+    validateByAdmin: {
+        type: Boolean,
+        default: false,
+      },
+      typeMedecin: {
+        type: TypeMedecin,
       },
     password: {
       // code for unlock order

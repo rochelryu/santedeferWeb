@@ -25,11 +25,15 @@ export class CreateAdminDto {
     @IsString()
     readonly name: string;
     @IsString()
+    readonly matricule: string;
+    @IsString()
     readonly numero: number;
     @IsString()
     readonly email: string;
     @IsString()
     readonly speciality: string;
+    @IsString()
+    readonly typeMedecin: string;
     @IsString()
     readonly password: string;
     @IsString()

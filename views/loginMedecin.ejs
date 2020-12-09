@@ -10,21 +10,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <meta name="description" content="This is an example dashboard created using build-in elements and components.">
     <meta name="msapplication-tap-highlight" content="no">
-    <style>
+    
+	<link href="../main.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+<script type="text/javascript" src="../assets/scripts/jquery.min.js"></script>
+<script type="text/javascript" src="../assets/scripts/other.js"></script>
+	<style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-.btn { display: inline-block; *display: inline; *zoom: 1; padding: 4px 10px 4px; margin-bottom: 0; font-size: 13px; line-height: 18px; color: #333333; text-align: center;text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); vertical-align: middle; background-color: #f5f5f5; background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6); background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6)); background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6); background-image: -o-linear-gradient(top, #ffffff, #e6e6e6); background-image: linear-gradient(top, #ffffff, #e6e6e6); background-repeat: repeat-x; filter: progid:dximagetransform.microsoft.gradient(startColorstr=#ffffff, endColorstr=#e6e6e6, GradientType=0); border-color: #e6e6e6 #e6e6e6 #e6e6e6; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); border: 1px solid #e6e6e6; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); cursor: pointer; *margin-left: .3em; }
-.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] { background-color: #e6e6e6; }
-.btn-large { padding: 9px 14px; font-size: 15px; line-height: normal; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
-.btn:hover { color: #333333; text-decoration: none; background-color: #e6e6e6; background-position: 0 -15px; -webkit-transition: background-position 0.1s linear; -moz-transition: background-position 0.1s linear; -ms-transition: background-position 0.1s linear; -o-transition: background-position 0.1s linear; transition: background-position 0.1s linear; }
-.btn-primary, .btn-primary:hover { text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); color: #ffffff; }
-.btn-primary.active { color: rgba(255, 255, 255, 0.75); }
-.btn-primary { background-color: #4a77d4; background-image: -moz-linear-gradient(top, #6eb6de, #4a77d4); background-image: -ms-linear-gradient(top, #6eb6de, #4a77d4); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6eb6de), to(#4a77d4)); background-image: -webkit-linear-gradient(top, #6eb6de, #4a77d4); background-image: -o-linear-gradient(top, #6eb6de, #4a77d4); background-image: linear-gradient(top, #6eb6de, #4a77d4); background-repeat: repeat-x; filter: progid:dximagetransform.microsoft.gradient(startColorstr=#6eb6de, endColorstr=#4a77d4, GradientType=0);  border: 1px solid #3762bc; text-shadow: 1px 1px 1px rgba(0,0,0,0.4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5); }
-.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] { filter: none; background-color: #4a77d4; }
-.btn-block { width: 100%; display:block; }
 
 * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; box-sizing:border-box; }
 
-html { width: 100%; height:100%; overflow:hidden; }
+html { width: 100%; height:100%; overflow-x:hidden; }
 
 body { 
 	width: 100%;
@@ -38,47 +34,315 @@ body {
 	background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
 }
-.login { 
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin: -150px 0 0 -150px;
-	width:300px;
-	height:300px;
+a {
+  text-decoration: none;
+  color: #1ab188;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
 }
-.login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
+a:hover {
+  color: #179b77;
+}
 
-input { 
-	width: 100%; 
-	margin-bottom: 10px; 
-	background: rgba(0,0,0,0.3);
-	border: none;
-	outline: none;
-	padding: 10px;
-	font-size: 13px;
-	color: #fff;
-	text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-	border: 1px solid rgba(0,0,0,0.3);
-	border-radius: 4px;
-	box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
-	-webkit-transition: box-shadow .5s ease;
-	-moz-transition: box-shadow .5s ease;
-	-o-transition: box-shadow .5s ease;
-	-ms-transition: box-shadow .5s ease;
-	transition: box-shadow .5s ease;
+.form {
+  background: rgba(19, 35, 47, 0.9);
+  padding: 40px;
+  max-width: 600px;
+  margin: 40px auto;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
 }
-input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2); }
+
+.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+.tab-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.tab-group li a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  background: rgba(160, 179, 176, 0.25);
+  color: #a0b3b0;
+  font-size: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+.tab-group li a:hover {
+  background: #179b77;
+  color: #ffffff;
+}
+.tab-group .active a {
+  background: #1ab188;
+  color: #ffffff;
+}
+
+.tab-content > div:last-child {
+  display: none;
+}
+
+h1 {
+  text-align: center;
+  color: #ffffff;
+  font-weight: 300;
+  margin: 0 0 40px;
+}
+select {
+	background: transparent;
+	outline: none;
+}
+
+label {
+  position: absolute;
+  -webkit-transform: translateY(6px);
+          transform: translateY(6px);
+  left: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  -webkit-backface-visibility: hidden;
+  pointer-events: none;
+  font-size: 22px;
+}
+label .req {
+  margin: 2px;
+  color: #1ab188;
+}
+
+label.active {
+  -webkit-transform: translateY(50px);
+          transform: translateY(50px);
+  left: 2px;
+  font-size: 14px;
+}
+label.active .req {
+  opacity: 0;
+}
+
+label.highlight {
+  color: #ffffff;
+}
+
+input, textarea {
+  font-size: 22px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+  background: none;
+  background-image: none;
+  border: 1px solid #a0b3b0;
+  color: #ffffff;
+  border-radius: 0;
+  -webkit-transition: border-color .25s ease, box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease;
+}
+input:focus, textarea:focus {
+  outline: 0;
+  border-color: #1ab188;
+}
+
+textarea {
+  border: 2px solid #a0b3b0;
+  resize: vertical;
+}
+
+.field-wrap {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.top-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.top-row > div {
+  float: left;
+  width: 48%;
+  margin-right: 4%;
+}
+.top-row > div:last-child {
+  margin: 0;
+}
+
+.button {
+  border: 0;
+  outline: none;
+  border-radius: 0;
+  padding: 15px 0;
+  font-size: 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  background: #1ab188;
+  color: #ffffff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-appearance: none;
+}
+.button:hover, .button:focus {
+  background: #179b77;
+}
+
+.button-block {
+  display: block;
+  width: 100%;
+}
+
+.forgot {
+  margin-top: -20px;
+  text-align: right;
+}
+
 
     </style>
 </head>
 <body>
-<div class="login">
-	<h1>Medecin</h1>
-    <form action="/medecin/login" method="post">
-    	<input type="email" name="email" placeholder="Email" required="required" />
-        <input type="password" name="password" placeholder="Mot de passe" required="required" />
-        <button type="submit" class="btn btn-primary btn-block btn-large">Connexion</button>
-    </form>
+<div class="form">
+      
+      <ul class="tab-group">
+        <li class="tab active"><a href="#signup">Inscription</a></li>
+        <li class="tab"><a href="#login">Connexion</a></li>
+      </ul>
+      
+      <div class="tab-content">
+        <div id="signup">   
+          <h1>Bienvenue parmi nous</h1>
+          
+          <form action="/medecin/createMedecin" method="post" enctype="multipart/form-data">
+          
+          <div class="top-row">
+            <div class="field-wrap">
+              
+              <input type="email" name="email" placeholder='Email' required autocomplete="off" />
+            </div>
+        
+            <div class="field-wrap">
+              
+              <input type="text" placeholder='Nom Complet' name="name" required autocomplete="off"/>
+            </div>
+          </div>
+
+		  <div class="top-row">
+
+			<div class="field-wrap">
+				
+				<input type="number" placeholder='Contact' name="numero" required autocomplete="off"/>
+			</div>
+			<div class="field-wrap">
+				
+				<input type="text" placeholder='Matricule Medical' name="matricule" required autocomplete="off"/>
+			</div>
+          </div>
+          <div class="top-row">
+			<div class="field-wrap">
+				
+				<input type="password" name="password" placeholder='Mot de passe' required autocomplete="off"/>
+			</div>
+
+			<div class="field-wrap">
+				
+				<div class="position-relative form-group">
+								<select name="typeMedecin" id="typeMedecin" class="form-control">
+									<option disabled>Type de compte</option>
+									<option value='MEDECIN_FULL'>Medecin Propriétaire</option>
+									<option value='MEDECIN_PARTIEL'>Medecin Prestataire</option>
+									<option value='INFIRMIER'>Infirmier</option>
+
+								</select>
+							</div>
+				</div>
+			
+			</div>
+
+		  	<div class='container-fluid mt-3'>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="position-relative form-group">
+							<select name="speciality" id="exampleSelect" class="form-control">
+							<option disabled>Spécialité</option>
+																	<% info.allSpeciality.forEach(function(value){ %>
+																	<option value="<%= value._id %>"><%= value.name %></option>
+																	<% }); %>
+																	
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+														<div class="position-relative form-group">
+															<select name="address" id="address" class="form-control">
+																
+																<option disabled>Commune</option>
+																<option value="Abobo">Abobo</option>
+																<option value="Adjamé">Adjamé</option>
+																<option value="Atécoubé">Atécoubé</option>
+																<option value="Cocody">Cocody</option>
+																<option value="Koumassi">Koumassi</option>
+																<option value="Marcory">Marcory</option>
+																<option value="Plateau">Plateau</option>
+																<option value="Port-Bouet">Port-Bouet</option>
+																<option value="Treichville">Treichville</option>
+																<option value="Yopougon">Yopougon</option>
+																
+															</select>
+														</div>
+					</div>	
+				</div>
+			</div>
+
+			<div class="field-wrap">
+				
+				<input type="file" name="images" placeholder='Photo de profil' required autocomplete="off"/>
+			</div>
+		  
+
+			
+          
+          <button type="submit" class="button button-block"/>S'inscrire</button>
+          
+          </form>
+
+        </div>
+        
+        <div id="login">   
+          <h1>Bon Retour</h1>
+          
+          <form action="/medecin/login" method="post">
+          
+            <div class="field-wrap">
+            <label>
+              Email<span class="req">*</span>
+            </label>
+            <input type="email" name="email" required autocomplete="off"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Mot de passe<span class="req">*</span>
+            </label>
+            <input type="password" name="password" required autocomplete="off"/>
+          </div>
+          
+          <p class="forgot"><a href="#">Mot de passe oublié ?</a></p>
+          
+          <button type="submit" class="button button-block">Connexion</button>
+          
+          </form>
+
+        </div>
+        
+      </div><!-- tab-content -->
+      
 </div>
 </body>
 </html>

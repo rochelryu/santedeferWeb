@@ -10,12 +10,18 @@ import {
     Body,
     Request, Res, Query, UseInterceptors, UploadedFile,
   } from '@nestjs/common';
-  import { Response } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { editFileName, imageFileFilter } from '../common/functions/Globals';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+
+import { Response } from 'express';
 import { LoginDto } from 'src/admin/admin.dto';
 import { ClientService } from 'src/client/client.service';
 import { UpdateEmploieDuTemps } from './medecin.dto';
 import { MedecinService } from './medecin.service';
 import { AdminService } from 'src/admin/admin.service';
+import { CreateMedecinDto } from 'src/admin/admin.dto';
 
 @Controller('medecin')
 export class MedecinController {
@@ -74,15 +80,28 @@ export class MedecinController {
     @Get('/login')
     async loginMedecin(@Request() req, @Res() res: Response) {
     if(req.session.sante && req.session.sante.level === 2) {
-        res.redirect('/medecin');
+        if(req.session.sante.validateByAdmin) {
+          res.redirect('/medecin');
+        } else {
+          res.redirect('/medecin/inWait');
+        }
     } else {
+      const allSpeciality = await this.adminService.getAllSpeciality();
       const message = req.session.flash ?? '';
 			req.session.destroy()
 			res.render('loginMedecin', {
 				message,
-				title: 'Authentification'
+				title: 'Authentification',
+        info: {allSpeciality: allSpeciality.result}
 			});
     }
+    }
+
+    @Get('/inWait')
+    async inWait(@Request() req, @Res() res: Response) {
+        res.render('inWait', {
+              title: 'En Attente',
+            });
     }
 
     @Get('/logout')
@@ -126,13 +145,37 @@ export class MedecinController {
         const {etat, result, error} = await this.medecinService.verifyMedecin(info);
         if(etat) {
             req.session.sante = result;
-            res.redirect('/medecin');
+            if(result.validateByAdmin){
+              res.redirect('/medecin');
+            } else {
+              res.redirect('/medecin/inWait');
+            }
         } else {
             req.session.flash = error.message;
             res.redirect('/medecin/login');
         }
         
     }
+
+    @Post('/createMedecin')
+  @UseInterceptors(FileInterceptor('images', {
+    storage: diskStorage({
+      destination: join(__dirname, '..', '..', 'public', 'assets', 'images','avatars', 'profils'),
+      filename: editFileName,
+    }),
+    fileFilter: imageFileFilter
+  }))
+  async createMedecin(@Request() req, @Res() res: Response, @Body() medecinDto: CreateMedecinDto, @UploadedFile() file) {
+    this.logger.debug(medecinDto);
+      const image = file.filename;
+      const newMedecin = await this.medecinService.createMedecin(medecinDto, image);
+      this.logger.debug(newMedecin);
+      if(newMedecin.etat) {
+        res.redirect('/medecin/inWait')
+      } else {
+        res.redirect('/medecin/login')
+      }
+  }
 
     @Post('/createPathologie')
   async createPathologie(@Request() req, @Res() res: Response, @Body() pathologie: {name:string}) {
