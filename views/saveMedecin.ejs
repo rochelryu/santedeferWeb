@@ -71,7 +71,9 @@
                                                             </td>
                                                             <td>
                                                             <button type="button" class="activateCompte btn btn-dark btn-sm" data-ref='<%= value._id %>'>Activer</button>
-                                                            <br>
+                                                            <div class="p-3">
+                                                                
+                                                            </div>
                                                             <button type="button" class="deleteCompte btn btn-danger btn-sm" data-ref='<%= value._id %>'>Supprimer</button>
                                                             </td>
                                                     </tr>
@@ -140,11 +142,7 @@
                                                             <td><%= value.numero %></td>
                                                             <td><%= value.speciality.name %></td>
                                                             <td>
-                                                            <% if (value.isActivate) { %>
                                                             <span class="badge badge-success">En Activité</span>
-                                                            <% }  else { %>
-                                                            <span class="badge badge-danger">Attente d'horaire</span>
-                                                            <% } %>
                                                             
                                                             </td>
                                                             <td><%= value.address %></td>
@@ -177,11 +175,7 @@
                                                             <td><%= value.numero %></td>
                                                             <td><%= value.speciality.name %></td>
                                                             <td>
-                                                            <% if (value.isActivate) { %>
                                                             <span class="badge badge-success">En Activité</span>
-                                                            <% }  else { %>
-                                                            <span class="badge badge-danger">Attente d'horaire</span>
-                                                            <% } %>
                                                             
                                                             </td>
                                                             <td><%= value.address %></td>

@@ -95,6 +95,78 @@ $('.tab a').on('click', function (e) {
 
     });
 
+    $(".activateCompte").click(function() {
+        const ref = $(this).attr('data-ref');
+        const typeAction = 1;
+        const buttons = $(this);
+        buttons.hide();
+
+        const url = '/admin/actionCompte', type = 'post';
+                  $.ajax({
+                      url,
+                      type,
+                      data: {ref, typeAction},
+                      success: function(datas) {
+                          if (datas.etat) {
+                              $.notify({
+                                  position: 3,
+                                  type: 'success',
+                                  duration: 10000,
+                                  message: datas.result
+                              });
+  
+                              buttons.parent().parent().hide();
+                          } else {
+                              $.notify({
+                                  position: 3,
+                                  type: 'error',
+                                  duration: 8000,
+                                  message: datas.error
+                              });
+                              buttons.show();
+                          }
+                      }
+                  });
+                
+
+    });
+
+    $(".deleteCompte").click(function() {
+        const ref = $(this).attr('data-ref');
+        const typeAction = 2;
+        const buttons = $(this);
+        buttons.hide();
+
+        const url = '/admin/actionCompte', type = 'post';
+                  $.ajax({
+                      url,
+                      type,
+                      data: {ref, typeAction},
+                      success: function(datas) {
+                          if (datas.etat) {
+                              $.notify({
+                                  position: 3,
+                                  type: 'success',
+                                  duration: 10000,
+                                  message: datas.result
+                              });
+  
+                              buttons.parent().parent().hide();
+                          } else {
+                              $.notify({
+                                  position: 3,
+                                  type: 'error',
+                                  duration: 8000,
+                                  message: datas.error
+                              });
+                              buttons.show();
+                          }
+                      }
+                  });
+                
+
+    });
+
 
     $(".payeMedecin").click(function() {
         const id = $(this).attr('data-ref');

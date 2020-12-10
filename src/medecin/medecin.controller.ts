@@ -22,6 +22,7 @@ import { UpdateEmploieDuTemps } from './medecin.dto';
 import { MedecinService } from './medecin.service';
 import { AdminService } from 'src/admin/admin.service';
 import { CreateMedecinDto } from 'src/admin/admin.dto';
+import { TypeMedecin } from './medecin.schema';
 
 @Controller('medecin')
 export class MedecinController {
@@ -104,6 +105,13 @@ export class MedecinController {
             });
     }
 
+    @Get('/doneWait')
+    async doneWait(@Request() req, @Res() res: Response) {
+        res.render('doneWait', {
+              title: 'Compte Confirmé',
+            });
+    }
+
     @Get('/logout')
 	logout(@Request() req, @Res() res: Response) {
 		req.session.destroy();
@@ -145,9 +153,12 @@ export class MedecinController {
         const {etat, result, error} = await this.medecinService.verifyMedecin(info);
         if(etat) {
             req.session.sante = result;
-            if(result.validateByAdmin){
+            if(result.validateByAdmin && result.typeMedecin === TypeMedecin.MEDECIN_FULL){
               res.redirect('/medecin');
-            } else {
+            } else if (result.validateByAdmin && result.typeMedecin !== TypeMedecin.MEDECIN_FULL) {
+              res.redirect('/medecin/doneWait');
+            }
+            else {
               res.redirect('/medecin/inWait');
             }
         } else {

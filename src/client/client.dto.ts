@@ -1,4 +1,5 @@
 import { IsString, IsEmail } from 'class-validator';
+import { TypeMedecin } from 'src/medecin/medecin.schema';
 
 export class LoginClientDto {
   @IsString()
@@ -46,6 +47,12 @@ export class CreateClientDto {
   export interface QueryHeaderClientDto {
     readonly _id: string,
     readonly recovery: string,
+  }
+
+  export interface QueryHeaderClientSearchMedecinDto extends QueryHeaderClientDto {
+    readonly speciality: string,
+    readonly typeMedecin: TypeMedecin,
+    readonly address: string,
   }
 
 

@@ -178,7 +178,6 @@ export class AdminController {
       const allConseils = await this.adminService.getAllConseilsByType(parseInt(query.type, 10));
       
       const info = {allConseils: allConseils.result, type: parseInt(query.type, 10)};
-      this.logger.log(info);
       // list medecin with number Of Medecin, create speciality and more vision of Medecin
 			res.render('listConseils', {
         title: 'List Conseils',
@@ -250,6 +249,21 @@ export class AdminController {
       res.redirect('/');
     }
   }
+  @Post('/actionCompte')
+  async actionCompte(@Request() req, @Res() res: Response, @Body() info: {ref:string, typeAction: string}) {
+    if(req.session.sante && req.session.sante.level === 3) {
+      if(parseInt(info.typeAction, 10) === 1) {
+        const activateMedecin = await this.medecinService.updateMedecinForActivateAdmin(info.ref);
+        return activateMedecin.etat ? {etat:activateMedecin.etat, result: 'Compte activé' }: { etat: activateMedecin.etat, error: activateMedecin.error.message };
+      } else {
+        const deleteMedecin = await this.medecinService.deleteMedecinByAdmin(info.ref);
+        
+        return deleteMedecin.etat ? {etat:deleteMedecin.etat, result: 'Compte Supprimé' }: { etat: deleteMedecin.etat, error: deleteMedecin.error.message };
+      }
+    } else {
+      res.json({etat: false, error:'not permission'});
+    }
+  }
 
   @Post('/createMedecin')
   @UseInterceptors(FileInterceptor('images', {
@@ -262,7 +276,6 @@ export class AdminController {
   async createMedecin(@Request() req, @Res() res: Response, @Body() medecinDto: CreateMedecinDto, @UploadedFile() file) {
     if(req.session.sante && req.session.sante.level === 3) {
       const image = file.filename;
-      this.logger.log(image);
       const newMedecin = await this.medecinService.createMedecin(medecinDto, image);
       res.redirect('/admin/saveMedecin');
     } else {

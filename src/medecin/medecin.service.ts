@@ -85,6 +85,18 @@ export class MedecinService {
         });
       }
 
+      async updateMedecinForActivateAdmin(id: string): Promise<ReponseServiceGeneral> {
+        return new Promise(async next => {
+          await this.medecinModel.updateOne({ _id:id }, {validateByAdmin: true}).then(res => next({ etat: true, result: res })).catch(error => next({ etat: false, error }))
+        });
+      }
+
+      async deleteMedecinByAdmin(id: string): Promise<ReponseServiceGeneral> {
+        return new Promise(async next => {
+          await this.medecinModel.deleteOne({ _id:id }).then(res => next({ etat: true, result: res })).catch(error => next({ etat: false, error }))
+        });
+      }
+
       async updateMedecinForRdv(id: string, jrChoice: string, horaireIndex: number, rdvId: string): Promise<ReponseServiceGeneral> {
         return new Promise(async next => {
           await this.medecinModel
@@ -194,7 +206,7 @@ export class MedecinService {
               if (result) {
                   result.loginDate = new Date();
                   await result.save().then((updateMedecin)=> {
-                    next({ etat: true, result: {id: result._id, level: 2, validateByAdmin: result.validateByAdmin} })
+                    next({ etat: true, result: {id: result._id, level: 2, validateByAdmin: result.validateByAdmin, typeMedecin: result.typeMedecin} })
                   }).catch(error => next({ etat: false, error }))
               }else {
                 next({ etat: false, error: new Error('Email ou Mot de passe incorrect') });

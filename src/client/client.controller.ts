@@ -12,10 +12,11 @@ import {
   import { Response } from 'express';
 import { AdminService } from 'src/admin/admin.service';
 import { MedecinService } from 'src/medecin/medecin.service';
-import { CreateClientDto, LoginClientDto, QueryHeaderClientDto, CreateRendezVousFirstStepDTO,CreateRendezVousLastStepDTO } from './client.dto';
+import { CreateClientDto, LoginClientDto, QueryHeaderClientDto,QueryHeaderClientSearchMedecinDto, CreateRendezVousFirstStepDTO,CreateRendezVousLastStepDTO } from './client.dto';
 import { addDays, getDay } from 'date-fns';
 import { ClientService } from './client.service';
 import { generateRecovery, getArrayDayOfMedecinRendezVous } from 'src/common/functions/Globals';
+import { TypeMedecin } from 'src/medecin/medecin.schema';
 
 
 @Controller('client')
@@ -64,6 +65,19 @@ export class ClientController {
         res.json({etat: user.etat, result, allRendezVousTrueFormat});
       } else {
         res.json({etat: user.etat, error: user.error.message});
+      }
+      
+    }
+
+    @Get('/getSearch')
+  async getSearch(@Request() req, @Res() res: Response, @Query() query: QueryHeaderClientSearchMedecinDto) {
+    const {_id, recovery, ...rest} = query;
+      const user = await this.clientService.getClientByItem({_id, recovery});
+      if(user.etat){
+        const allPersonnels = rest.typeMedecin === TypeMedecin.INFIRMIER ? await this.medecinService.getAllMedecinByItem({address: rest.address, typeMedecin: rest.typeMedecin, validateByAdmin: true}): await this.medecinService.getAllMedecinByItem({address: rest.address, speciality: rest.speciality, typeMedecin: rest.typeMedecin, validateByAdmin: true});
+        res.json(allPersonnels.result);
+      } else {
+        res.json([]);
       }
       
     }
