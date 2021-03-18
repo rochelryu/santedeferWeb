@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { coreEncode } from 'crypto-core';
 import { Model } from 'mongoose';
-import { generateRecovery } from 'src/common/functions/Globals';
+import { generateRecovery, createFileWithBuffer, deleteFilesWithListName } from 'src/common/functions/Globals';
 import { ReponseServiceGeneral } from 'src/common/interfaces/response.interfaces';
-import { CreateClientDto, LoginClientDto, CreateRendezVousFirstStepDTO, CreateRendezVousLastStepDTO } from './client.dto';
+import { CreateClientDto, LoginClientDto, CreateRendezVousFirstStepDTO, CreateRendezVousLastStepDTO, CreateRendezVousFinalDTO,UpdateRendezVousFinalDTO } from './client.dto';
 import { ClientInterface, RendezVousInterface } from './client.schema';
 
 @Injectable()
@@ -122,6 +122,67 @@ export class ClientService {
         });
       }
 
+      async updateChangeProfil(
+    id: string,
+    imageName: string,
+    base64: string,
+  ): Promise<ReponseServiceGeneral> {
+    return new Promise(async next => {
+      const client = await this.clientModel.findOne({ _id: id }).exec();
+      deleteFilesWithListName([`profilClients/${client.images}`]);
+      const nameImage = `${
+        client.name
+      } _ ${generateRecovery()} _ ${imageName}`;
+      createFileWithBuffer(`profilClients/${nameImage}`, base64);
+      client.images = nameImage;
+      await client
+        .save()
+        .then(result => {
+          next({ etat: true, result });
+        })
+        .catch(error => next({ etat: false, error }));
+    });
+  }
+  
+      async updateClientForAntecedent(id: string, antecedent:string): Promise<ReponseServiceGeneral> {
+        return new Promise(async next => {
+          await this.clientModel
+            .findOne({ _id:id })
+            .then(async result => {
+              if (result) {
+                
+                if(!result.antecedent.includes(antecedent)){
+                  result.antecedent.push(antecedent);
+                } 
+                await this.clientModel.updateOne({ _id:id }, result).then(res => next({ etat: true, result })).catch(error => next({ etat: false, error }))
+                    
+              } else {
+                next({ etat: false, error: new Error('Client introuvable') });
+              }
+            })
+            .catch(error => next({ etat: false, error }));
+        });
+      }
+      async updateClientRendezVous(id: string, idRendezVous:string): Promise<ReponseServiceGeneral> {
+        return new Promise(async next => {
+          await this.clientModel
+            .findOne({ _id:id })
+            .then(async result => {
+              if (result) {
+                
+                if(!result.mesRendezVous.includes(idRendezVous)){
+                  result.mesRendezVous.push(idRendezVous);
+                } 
+                await this.clientModel.updateOne({ _id:id }, result).then(res => next({ etat: true, result })).catch(error => next({ etat: false, error }))
+                    
+              } else {
+                next({ etat: false, error: new Error('Client introuvable') });
+              }
+            })
+            .catch(error => next({ etat: false, error }));
+        });
+      }
+
 
       async updateRdv(id: string, result): Promise<ReponseServiceGeneral> {
         return new Promise(async next => {
@@ -184,6 +245,17 @@ export class ClientService {
           .exec();
       }
 
+      async getAllRendezVousForMedecinByStatus(medecinid: string, isDone: number) {
+        const momentDay = new Date();
+        return await this.rendezVousModel
+          .find({$and: [
+          { medecinTraitant: medecinid },
+          {isDone},
+        ],})
+        .populate('client')
+          .exec();
+      }
+
 
       async getCountRendezVousDropForMedecin(medecinid: string) {
         const momentDay = new Date();
@@ -206,6 +278,7 @@ export class ClientService {
               $lt: new Date(momentDay.getFullYear(), momentDay.getMonth(), momentDay.getDate() + 1),
             }})
             .populate('client')
+            .populate('speciality')
           .exec();
       }
 
@@ -230,6 +303,7 @@ export class ClientService {
             .find()
             .populate('medecinTraitant')
             .populate('client')
+            .populate('speciality')
             .then(result => {
               next({ etat: true, result })
             })
@@ -244,7 +318,10 @@ export class ClientService {
       async getRendezVousByItem(item): Promise<ReponseServiceGeneral> {
         
         return new Promise(async next => {
-            await this.rendezVousModel.findOne(item).populate('client')
+            await this.rendezVousModel.findOne(item)
+            .populate('client')
+            .populate('speciality')
+            .populate('medecinTraitant')
             .then(async result => {
                 if(result) {
                         next({ etat: true, result })
@@ -266,13 +343,41 @@ export class ClientService {
           const rendezVous = new this.rendezVousModel(
             {
               client: firstRendezVous.id,
-              isMe: firstRendezVous.isMe === 'on',
-              otherUser: firstRendezVous.isMe === 'on' ? {}: { name: firstRendezVous.nameOther, address: firstRendezVous.addressOther, old: firstRendezVous.oldOther},
+              speciality: firstRendezVous.speciality,
               description: firstRendezVous.description
             });
           await rendezVous.save()
           .then(result => next({etat: true, result}))
           .catch(error => next({etat: false, error}))
+        });
+      }
+
+      async createRendezVousByUserAfterConsultation(apresRendezVous: CreateRendezVousFinalDTO): Promise<ReponseServiceGeneral> {
+        return new Promise(async next => {
+          const {id, imageName, base64,recovery, ...rest} = apresRendezVous;
+          const client = await this.clientModel.findOne({ _id: id }).exec();
+          const nameImage = `${
+            client._id
+          } _ ${generateRecovery()} _ ${imageName}`;
+          createFileWithBuffer(`carnet_sante/${nameImage}`, base64);
+          const dateDuRendezVous = new Date(apresRendezVous.dateDuRendezVous);
+          const rendezVous = new this.rendezVousModel({...rest, client:id, dateDuRendezVous, isDone: 3, typeRdv: 3, traitement:nameImage});
+          await rendezVous.save()
+          .then(result => next({etat: true, result}))
+          .catch(error => next({etat: false, error}))
+        });
+      }
+
+      async updateRendezVousByUserAfterConsultation(apresRendezVous: UpdateRendezVousFinalDTO): Promise<ReponseServiceGeneral> {
+        return new Promise(async next => {
+          const {id, imageName, base64,recovery,rendezVousId, ...rest} = apresRendezVous;
+          const client = await this.clientModel.findOne({ _id: id }).exec();
+          const nameImage = `${
+            client._id
+          } _ ${generateRecovery()} _ ${imageName}`;
+          createFileWithBuffer(`carnet_sante/${nameImage}`, base64);
+          await this.rendezVousModel.updateOne({ _id:rendezVousId }, {...rest, isDone: 3,traitement:nameImage}).then(result => next({ etat: true, result })).catch(error => next({ etat: false, error }))
+          
         });
       }
 

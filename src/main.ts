@@ -14,7 +14,7 @@ import * as fs from 'fs';
 import * as http from 'http';
 import * as https from 'https';
 import * as express from 'express';
-
+import * as bodyParser from 'body-parser';
 const logger = new Logger('App Main');
 // const httpsOptions = {
 // 	key: fs.readFileSync(join(__dirname, '..', 'secrets', 'selfsigned.key')),
@@ -33,8 +33,10 @@ async function bootstrap() {
 	//app.set('view options', { layout: 'main' });
 
 	app.use(helmet());
+	app.use(bodyParser.json({ limit: '100mb' })); // enable bodyParser with great Limit
+  	app.use(bodyParser.urlencoded({ limit: '100mb', extended: true })); // encoded bodyParser with great Limit
 	app.useGlobalPipes(new ValidationPipe());
-	app.useGlobalFilters(new AuthExceptionFilter());
+	//app.useGlobalFilters(new AuthExceptionFilter());
 	app.enableCors();
 
 	// Session initialise

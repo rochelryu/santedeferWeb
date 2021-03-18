@@ -1,11 +1,5 @@
 import * as mongoose from 'mongoose';
 
-interface Antecendant {
-  pathologie: string,
-  description?: string,
-  resultat: string,
-}
-
 interface OtherUser {
   name: string,
   address: string,
@@ -14,26 +8,18 @@ interface OtherUser {
 
 
 export interface RendezVousInterface extends mongoose.Document{
-  pathologie?: string, //cause of malaria
+  speciality?: string, //cause of malaria
   description?: string, //cause of malaria
   diagnostic?: string, //metionned by medecin
-  resultat?: string, //metionned by medecin
-  lieuDuRendezVous?: string,
-  dateDuRendezVous?: Date; 
-  exeat?: Date; //metionned by medecin
-  aRevoirLe?: Date; //metionned by medecin
-  intervention?: string, //metionned by medecin
-  suiteOperatoire?: string, //metionned by medecin
+  automedication?: string, //metionned by medecin
+  dateDuRendezVous?: Date, 
   traitement?: string, //metionned by medecin
   medecinTraitant?: string, //medecin id
   client?: string, //client id
-  otherUser?: OtherUser,
   registerDate: Date,
   isDone: number,
+  lieuDuRendezVous?: string,
   typeRdv: number, //0 for standard and 1 for fidel
-  isMe: boolean,
-  medecinDone: boolean,
-  patientDone: boolean,
 }
 
 export interface ClientInterface extends mongoose.Document {
@@ -51,7 +37,7 @@ export interface ClientInterface extends mongoose.Document {
     numberRdvNever: number;
     mesRendezVous: string[];
     listMedecin: string[];
-    antecendent: Antecendant[];
+    antecedent: string[];
     registerDate: Date;
     birthDate: Date;
     loginDate?: Date;
@@ -132,9 +118,9 @@ export const ClientSchema = new mongoose.Schema({
         ref: 'Medecin',
       },
     ],
-    antecendent: [
+    antecedent: [
     {
-      type: Object,
+      type: String,
     },
   ],
     
@@ -148,8 +134,9 @@ export const ClientSchema = new mongoose.Schema({
 });
 
 export const RendezVousSchema = new mongoose.Schema({
-    pathologie: {
-      type: String,
+    speciality: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Speciality',
     },
     description: {
       type: String,
@@ -158,20 +145,13 @@ export const RendezVousSchema = new mongoose.Schema({
         type: String,
       },
 
-    resultat: {
+    automedication: {
         type: String,
       },
-
     lieuDuRendezVous: {
-      type: String,
+        type: String,
     },
     dateDuRendezVous: {
-      type: Date,
-    },
-    exeat: {
-      type: Date,
-    },
-    aRevoirLe: {
       type: Date,
     },
     isDone: {
@@ -183,16 +163,6 @@ export const RendezVousSchema = new mongoose.Schema({
       default: 0,
     },
 
-    intervention: {
-      type: String,
-    },
-    suiteOperatoire: {
-      type: String,
-    },
-
-    otherUser : {
-      type:Object,
-    },
     traitement: {
       type: String,
     },
@@ -205,21 +175,6 @@ export const RendezVousSchema = new mongoose.Schema({
     client: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Client',
-    },
-
-    medecinDone: {
-      type: Boolean,
-      default: false,
-    },
-
-    isMe : {
-      type: Boolean,
-      default: true,
-    },
-
-    patientDone: {
-      type: Boolean,
-      default: false,
     },
     
     registerDate: {

@@ -1,4 +1,4 @@
-import { IsString, IsEmail } from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
 import { TypeMedecin } from 'src/medecin/medecin.schema';
 
 export class LoginClientDto {
@@ -9,8 +9,30 @@ export class LoginClientDto {
   
 }
 
+class RequestClient {
+    @IsNotEmpty()
+    @IsString()
+    readonly _id: string;
+    @IsNotEmpty()
+    @IsString()
+    readonly recovery: string;
+  }
 
-export class CreateClientDto {
+export class CreateAntecedentDto extends RequestClient {
+    @IsString()
+    @IsNotEmpty()
+    readonly antecedent: string;
+  }
+
+  export class ChangeProfilPictureDto extends RequestClient {
+    @IsString()
+    @IsNotEmpty()
+    readonly image: string;
+    @IsNotEmpty()
+    readonly base64: string;
+  }
+
+  export class CreateClientDto {
     @IsString()
     readonly name: string;
     @IsString()
@@ -44,9 +66,13 @@ export class CreateClientDto {
   }
 
 
-  export interface QueryHeaderClientDto {
-    readonly _id: string,
-    readonly recovery: string,
+  export class QueryHeaderClientDto {
+    readonly _id: string;
+    readonly recovery: string;
+  }
+
+  export class QueryHeaderClientForGetRendezVousDto extends QueryHeaderClientDto {
+    readonly rendezVousId: string;
   }
 
   export interface QueryHeaderClientSearchMedecinDto extends QueryHeaderClientDto {
@@ -56,4 +82,6 @@ export class CreateClientDto {
   }
 
 
-  export interface CreateRendezVousFirstStepDTO {speciality: string, isMe: string, nameOther: string, addressOther: string, oldOther: string, description: string, id:string}
+  export interface CreateRendezVousFirstStepDTO {speciality: string,  description: string, address: string, id:string}
+  export interface CreateRendezVousFinalDTO {speciality: string,  description: string, id:string, diagnostic: string,  automedication: string, dateDuRendezVous: string, base64: string,imageName: string, recovery: string}
+  export interface UpdateRendezVousFinalDTO {rendezVousId: string,  description: string, id:string, diagnostic: string,  automedication: string, base64: string,imageName: string, recovery: string}

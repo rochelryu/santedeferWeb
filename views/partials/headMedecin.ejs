@@ -7,17 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="This is an example dashboard created using build-in elements and components.">
     
-
+<link href="../datatables.min.css" rel="stylesheet">
 <link href="../main.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
 <script type="text/javascript" src="../assets/scripts/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/scripts/dateFormat.js"></script>
-
 <script>
+    function formatDate(date) {
+        const data = new Date(date);
+        document.write(`${data.toLocaleDateString()} ${data.toLocaleTimeString()}`)
+    }
     function calculeYear(date) {
-        return new Date().getFullYear() - new Date(date).getFullYear();
+        const old = new Date().getFullYear() - new Date(date).getFullYear();
+        document.write(`${old.toString()}`);
     }
 </script>
+
 </head>
 <body>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">

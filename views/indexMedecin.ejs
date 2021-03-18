@@ -51,6 +51,12 @@
                             </div>
                             
                         </div>
+                        <div class="row indexSearch">
+                            <div class="container">
+                                <input type="text" id="searchItem" placeholder="Search...">
+                                <div class="search"></div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="main-card mb-3 card">
@@ -76,18 +82,13 @@
                                                             <div class="widget-content-wrapper">
                                                                 <div class="widget-content-left mr-3">
                                                                     <div class="widget-content-left">
-                                                                        <img width="40" class="img-profil-medecin rounded-circle" src="../assets/images/<%= value.client.images %>" alt="<%= value.client.name %>">
+                                                                        <img width="40" class="img-profil-medecin rounded-circle" src="../assets/images/avatars/profilClients/<%= value.client.images %>" alt="<%= value.client.name %>">
                                                                     </div>
                                                                 </div>
                                                                 <div class="widget-content-left flex2">
                                                                     <div class="widget-heading"><%= value.client.name %></div>
                                                                         <div class="widget-subheading opacity-7">
-                                                                            <% if (value.isMe) { %>
-                                                                            <p>Pour lui même, <script>calculeYear("<%= value.client.birthDate %>")</script> ans, <br> Groupe Sanguin: <%= value.client.groupeSanguin %> </p>
-
-                                                                            <% }  else { %>
-                                                                            <p>Pour <%= value.otherUser.name %>, <%= value.otherUser.address %> et a  <%= value.otherUser.old %> ans</p>
-                                                                            <% } %>
+                                                                            <p><script>calculeYear("<%= value.client.birthDate %>")</script> ans, <br> Groupe Sanguin: <%= value.client.groupeSanguin %> </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -95,8 +96,144 @@
                                                         </div>
                                                     </td>
 
-                                                    <td class="text-center"><%= value.client.lieuDuRendezVous %></td>
-                                                    <td class="text-center"><%= value.dateDuRendezVous %></td>
+                                                    <td class="text-center"><%= value.lieuDuRendezVous %></td>
+                                                    <td class="text-center"><script>formatDate("<%= value.dateDuRendezVous %>")</script></td>
+                                                    <td class="text-center">
+                                                        <% if (value.isDone === 1) { %>
+                                                        <div class="badge badge-warning">
+                                                        Pas encore Consulté
+                                                        </div>
+                                                        <% }  else if (value.isDone === 3) { %>
+                                                        <div class="badge badge-success">
+                                                        Déjà Consulté
+                                                        </div>
+                                                        <% }  else { %>
+                                                        <div class="badge badge-success">
+                                                        Rendez vous manqué
+                                                        </div>
+                                                        <% } %>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="/medecin/viewRdv?id=<%= value._id %>" class="btn btn-primary btn-sm">Details</button>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">RENDEZ-VOUS RESTÉ EN ATTENTE
+                                        
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Nom Complet</th>
+                                                <th class="text-center">Adresse</th>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <% info.allRdvInWait.forEach(function(value){ %>
+                                                <tr>
+                                                    <td>
+                                                        <div class="widget-content p-0">
+                                                            <div class="widget-content-wrapper">
+                                                                <div class="widget-content-left mr-3">
+                                                                    <div class="widget-content-left">
+                                                                        <img width="40" class="img-profil-medecin rounded-circle" src="../assets/images/avatars/profilClients/<%= value.client.images %>" alt="<%= value.client.name %>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="widget-content-left flex2">
+                                                                    <div class="widget-heading"><%= value.client.name %></div>
+                                                                        <div class="widget-subheading opacity-7">
+                                                                            <p><script>calculeYear("<%= value.client.birthDate %>")</script> ans, <br> Groupe Sanguin: <%= value.client.groupeSanguin %> </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="text-center"><%= value.lieuDuRendezVous %></td>
+                                                    <td class="text-center"><script>formatDate("<%= value.dateDuRendezVous %>")</script></td>
+                                                    <td class="text-center">
+                                                        <% if (value.isDone === 1) { %>
+                                                        <div class="badge badge-warning">
+                                                        Pas encore Consulté
+                                                        </div>
+                                                        <% }  else if (value.isDone === 3) { %>
+                                                        <div class="badge badge-success">
+                                                        Déjà Consulté
+                                                        </div>
+                                                        <% }  else { %>
+                                                        <div class="badge badge-success">
+                                                        Rendez vous manqué
+                                                        </div>
+                                                        <% } %>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="/medecin/viewRdv?id=<%= value._id %>" class="btn btn-primary btn-sm">Details</button>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="main-card mb-3 card">
+                                    <div class="card-header">RENDEZ-VOUS TERMINÉ
+                                        
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Nom Complet</th>
+                                                <th class="text-center">Adresse</th>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <% info.allRdvDone.forEach(function(value){ %>
+                                                <tr>
+                                                    <td>
+                                                        <div class="widget-content p-0">
+                                                            <div class="widget-content-wrapper">
+                                                                <div class="widget-content-left mr-3">
+                                                                    <div class="widget-content-left">
+                                                                        <img width="40" class="img-profil-medecin rounded-circle" src="../assets/images/avatars/profilClients/<%= value.client.images %>" alt="<%= value.client.name %>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="widget-content-left flex2">
+                                                                    <div class="widget-heading"><%= value.client.name %></div>
+                                                                        <div class="widget-subheading opacity-7">
+                                                                            <p><script>calculeYear("<%= value.client.birthDate %>")</script> ans, <br> Groupe Sanguin: <%= value.client.groupeSanguin %> </p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="text-center"><%= value.lieuDuRendezVous %></td>
+                                                    <td class="text-center"><script>formatDate("<%= value.dateDuRendezVous %>")</script></td>
                                                     <td class="text-center">
                                                         <% if (value.isDone === 1) { %>
                                                         <div class="badge badge-warning">
@@ -127,7 +264,40 @@
                         
                     </div>
                 </div>
-<%- include("partials/footer"); %>        
+<%- include("partials/footer"); %>
+<script>
+    $(document).ready(function() {
+        $("#searchItem").keyup(function(event) {
+        
+            if ((event.which === 13 || event.keyCode === 13) && $(this).val() !== '') {
+                const url = '/medecin/verifyClient', type = 'post';
+                const recovery = $(this).val();
+                  $.ajax({
+                      url,
+                      type,
+                      data: {recovery},
+                      success: function(datas) {
+                          if (datas.etat) {
+                              windows.href = windows.origin + `/medecin/${recovery}`
+                          } else {
+                              $.notify({
+                                  position: 3,
+                                  type: 'error',
+                                  duration: 8000,
+                                  message: datas.error
+                              });
+                              buttons.show();
+                          }
+                      }
+                  });
+            }
+
+        
+                
+
+        });
+    })
+</script>        
 
 </body>
 </html>

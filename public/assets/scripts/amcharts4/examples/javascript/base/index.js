@@ -4,9 +4,7 @@ var base = document.createElement("base");
 base.href = "/foo";
 document.head.appendChild(base);
 
-setTimeout(function () {
-	console.log(document.body.baseURI, document.body.baseURI, location.href, document.location.href, window.frameElement, document.documentURI);
-  }, 5000);
+
 
 var chart = am4core.create("chartdiv", am4charts.XYChart);
 

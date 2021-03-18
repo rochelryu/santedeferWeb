@@ -43,7 +43,9 @@ export class AdminController {
       const rdvFidelForToday = await this.clientService.getCountRendezVousToDay(0);
       const allRdvForToDay = await this.clientService.getAllRendezVousToDay()
       const info = {totalClient, newClient, totalRdv, rdvStandardForToday, rdvFidelForToday, totalMedecin, allRdvForToDay};
-      res.render('index', {
+      res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('index', {
         title: 'Accueil',
         user: user.result,
         info,
@@ -61,7 +63,9 @@ export class AdminController {
     } else {
       const message = req.session.flash ?? '';
 			req.session.destroy()
-			res.render('loginAdmin', {
+			res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('loginAdmin', {
 				message,
 				title: 'Authentification'
 			});
@@ -82,7 +86,9 @@ export class AdminController {
 
       const info = {allPathologie: allPathologie.result, allSpeciality: allSpeciality.result, allMedecinFull: allMedecinFull.result,allMedecinPart: allMedecinPart.result,allInfirmier: allInfirmier.result, allMedecinInWait: allMedecinInWait.result};
       // list medecin with number Of Medecin, create speciality and more vision of Medecin
-			res.render('saveMedecin', {
+			res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('saveMedecin', {
         title: 'Medecin',
         user: user.result,
         info
@@ -114,7 +120,9 @@ export class AdminController {
 
       const info = {allClient: allClient.result};
       // list medecin with number Of Medecin, create speciality and more vision of Medecin
-			res.render('listClient', {
+			res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('listClient', {
         title: 'Patient list',
         user: user.result,
         info
@@ -134,7 +142,9 @@ export class AdminController {
       if(user.etat) {
       const allRendezVous = await this.clientService.getAllRendezVous();
       const info = {allClient: allRendezVous.result};
-			res.render('listRendezVous', {
+			res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('listRendezVous', {
         title: 'Rendez Vous list',
         user: user.result,
         info
@@ -157,7 +167,9 @@ export class AdminController {
 
       const info = {allMedecin: allMedecin.result};
       // list medecin with number Of Medecin, create speciality and more vision of Medecin
-			res.render('payeMedecin', {
+			res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('payeMedecin', {
         title: 'Payement Medecin',
         user: user.result,
         info
@@ -179,7 +191,9 @@ export class AdminController {
       
       const info = {allConseils: allConseils.result, type: parseInt(query.type, 10)};
       // list medecin with number Of Medecin, create speciality and more vision of Medecin
-			res.render('listConseils', {
+			res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('listConseils', {
         title: 'List Conseils',
         user: user.result,
         info

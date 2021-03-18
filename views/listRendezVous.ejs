@@ -13,6 +13,7 @@
                                                         <th>Nom</th>
                                                         <th>Medecin</th>
                                                         <th>Lieu</th>
+                                                        <th>Service</th>
                                                         <th>Statut</th>
                                                         <th>Date de rendez-Vous</th>
                                                     </tr>
@@ -21,8 +22,9 @@
                                                     <% info.allClient.forEach(function(value){ %>
                                                         <tr>
                                                             <td><%= value.client.name %><br><%= value.client.numero %></td>
-                                                            <td><%= value.medecinTraitant.name %><br><%= value.client.numero %></td>
+                                                            <td><%= value.medecinTraitant ? value.medecinTraitant.name : "Consultation basique" %><br><%= value.medecinTraitant ? value.medecinTraitant.numero : "" %></td>
                                                             <td><%= value.lieuDuRendezVous %></td>
+                                                            <td><%= value.speciality.name %></td>
                                                             <td><% if (value.isDone === 1) { %>
                                                         <div class="badge badge-warning">
                                                         Pas encore Consulté

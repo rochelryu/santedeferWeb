@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
+    
     $('.form').find('input, textarea').on('keyup blur focus', function (e) {
-  
+    
   var $this = $(this),
       label = $this.prev('label');
 
@@ -47,10 +48,8 @@ $('.tab a').on('click', function (e) {
 
      $('.form-check-input').on('change',function() {
         if($(this).is(':checked')) {
-            console.log("il a check", $(this).parent().prev().val());
             $(this).parent().prev().val("on");
         } else {
-            console.log("il a decheck", $(this).parent().prev().val());
             $(this).parent().prev().val("");
         }
     });
@@ -202,4 +201,19 @@ $('.tab a').on('click', function (e) {
                 
 
     });
+    $("table").addClass( 'nowrap' ).DataTable({
+    responsive: true,
+    
+    buttons: [
+        'copy', 'excel', 'pdf'
+    ],
+    "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_ of _PAGES_",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+});
+$(".app-main").imagePreviewer();
 })

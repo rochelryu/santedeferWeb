@@ -1,3 +1,9 @@
+import { Logger } from '@nestjs/common';
+import * as fs from 'fs';
+import * as path from 'path';
+
+const logger: Logger = new Logger('Utils');
+
 export function imageFileFilter(req, file, callback) {
 	if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
 	  return callback(new Error('Que les images peuvent être chargées.'), false);
@@ -53,5 +59,38 @@ export function generateEmploie(): Array<{isBusy: boolean, value: string}> {
 			value: '',
 		}
 	});
+}
+
+export function assetFile(directory: string): string {
+  return path.join(`${__dirname}/../../../public/assets/images/avatars/`, directory);
+}
+
+export function createFileWithBuffer(
+  directory: string,
+  base64: string,
+) {
+  const buff = Buffer.from(base64, 'base64');
+  const inputFile = assetFile(directory);
+  fs.writeFileSync(assetFile(directory), buff);
+}
+export function deleteFilesWithListName(directory: [string]) {
+  const result = directory.map( pathName => {
+	  if( pathName.indexOf('medical-mask.png') === -1 ) {
+		  fs.unlink(assetFile(pathName), (error) => {
+			if(error) {
+				logger.error("file not found " + pathName);
+			}
+		});
+	  }
+    
+  });
+}
+
+export async function createDirSync(directory) {
+  await fs.mkdir(assetFile(directory), err => {
+    if (err) {
+      logger.log(err);
+    }
+  });
 }
 

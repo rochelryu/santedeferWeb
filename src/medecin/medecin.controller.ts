@@ -48,36 +48,40 @@ export class MedecinController {
             const rdvNumberForToday = await this.clientService.getCountRendezVousToDayForMedecin(req.session.sante.id);
             const rdvNumberDrop = await this.clientService.getCountRendezVousDropForMedecin(req.session.sante.id);
             const allRdvForTay = await this.clientService.getAllRendezVousToDayForMedecin(req.session.sante.id);
-            res.render('indexMedecin', {
+            const allRdvInWait= await this.clientService.getAllRendezVousForMedecinByStatus(req.session.sante.id, 1);
+            const allRdvDone = await this.clientService.getAllRendezVousForMedecinByStatus(req.session.sante.id, 3);
+            res
+            .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+            .render('indexMedecin', {
               title: 'Accueil Medecin',
               medecin: medecin.result,
-              info: {rdvNumberForToday, rdvNumberDrop, allRdvForTay}
+              info: {rdvNumberForToday, rdvNumberDrop, allRdvForTay, allRdvInWait, allRdvDone}
             });
           } else {
             res.redirect('/')
           }
         }
 
-        @Get('/viewRdv')
+    @Get('/viewRdv')
     async viewRdv(@Request() req, @Res() res: Response, @Query() query) {
-    if(req.session.sante && req.session.sante.level === 2) {
-      const medecin = await this.medecinService.verifyMedecinById(req.session.sante.id);
-            const rendezVous = await this.clientService.getRendezVousByItem({_id: query.id});
-            const pathologie = await this.adminService.getAllPathologieBySpeciality(medecin.result.speciality);
-            this.logger.debug(rendezVous.result.client);
-            const allRendezVous = await this.clientService.getClientByItem({_id:rendezVous.result.client._id});
-            
-      // list medecin with number Of Medecin, create speciality and more vision of Medecin
-			res.render('suivieRdv', {
-        title: 'Rendez Vous',
-        medecin: medecin.result,
-              info: {rendezVous:rendezVous.result, pathologie:pathologie.result, allRendezVousTrueFormat: allRendezVous.result.mesRendezVous}
-			});
-      
-    } else {
-       res.redirect('/')
+      if(req.session.sante && req.session.sante.level === 2) {
+        const medecin = await this.medecinService.verifyMedecinById(req.session.sante.id);
+              const rendezVous = await this.clientService.getRendezVousByItem({_id: query.id});
+              const allRendezVous = await this.clientService.getClientByItem({_id:rendezVous.result.client._id});
+              
+        // list medecin with number Of Medecin, create speciality and more vision of Medecin
+        res
+        .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+        .render('suivieRdv', {
+          title: 'Rendez Vous',
+          medecin: medecin.result,
+                info: {rendezVous:rendezVous.result,  allRendezVousTrueFormat: allRendezVous.result.mesRendezVous}
+        });
+        
+      } else {
+        res.redirect('/')
+      }
     }
-  }
     @Get('/login')
     async loginMedecin(@Request() req, @Res() res: Response) {
     if(req.session.sante && req.session.sante.level === 2) {
@@ -90,7 +94,9 @@ export class MedecinController {
       const allSpeciality = await this.adminService.getAllSpeciality();
       const message = req.session.flash ?? '';
 			req.session.destroy()
-			res.render('loginMedecin', {
+			res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('loginMedecin', {
 				message,
 				title: 'Authentification',
         info: {allSpeciality: allSpeciality.result}
@@ -100,14 +106,18 @@ export class MedecinController {
 
     @Get('/inWait')
     async inWait(@Request() req, @Res() res: Response) {
-        res.render('inWait', {
+        res
+        .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+        .render('inWait', {
               title: 'En Attente',
             });
     }
 
     @Get('/doneWait')
     async doneWait(@Request() req, @Res() res: Response) {
-        res.render('doneWait', {
+        res
+        .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+        .render('doneWait', {
               title: 'Compte Confirmé',
             });
     }
@@ -124,7 +134,9 @@ export class MedecinController {
     async emploieDuTemps(@Request() req, @Res() res: Response) {
     if(req.session.sante && req.session.sante.level === 2) {
         const medecin = await this.medecinService.verifyMedecinById(req.session.sante.id);
-            res.render('medecinEmploieDuTemps', {
+            res
+            .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+            .render('medecinEmploieDuTemps', {
               title: 'Gestion Medecin',
               medecin: medecin.result,
             });
@@ -138,7 +150,9 @@ export class MedecinController {
     if(req.session.sante && req.session.sante.level === 2) {
       const medecin = await this.medecinService.verifyMedecinById(req.session.sante.id);
       const allPathologie = await this.adminService.getAllPathologieBySpeciality(medecin.result.speciality);
-      res.render('pathologieMedecin', {
+      res
+      .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+      .render('pathologieMedecin', {
         title: 'Pathologie Medecin',
         medecin: medecin.result,
         info : {allPathologie: allPathologie.result}
@@ -198,6 +212,44 @@ export class MedecinController {
       res.redirect('/');
     }
   }
+
+  @Post('/verifyClient')
+  async verifyClient(@Request() req, @Res() res: Response, @Body() body: {recovery:string}) {
+    if(req.session.sante && req.session.sante.level === 2) {
+      const client = await this.clientService.getClientByItem({recovery:body.recovery});
+      if(client.etat){
+        res.redirect(`/medecin/viewClient?recovery=${body.recovery}`);
+      } else {
+        res.json({etat:client.etat, error: 'Vous n\'êtes pas autorisé à voir cet patient'})
+      }
+      
+    } else {
+      res.redirect('/');
+    }
+  }
+  @Get('/viewClient')
+    async viewClient(@Request() req, @Res() res: Response, @Query() query: {recovery:string}) {
+      if(req.session.sante && req.session.sante.level === 2) {
+        const medecin = await this.medecinService.verifyMedecinById(req.session.sante.id);
+              const client = await this.clientService.getClientByItem({recovery: query.recovery});
+              const clientInfo = client.result;
+              clientInfo.rendezVousInfo = [];
+              for(let i = 0; i < client.result.mesRendezVous.length; i++) {
+                const rendezVousInfo = await this.clientService.getRendezVousByItem({_id: client.result.mesRendezVous[i]._id});
+                clientInfo.rendezVousInfo.push(rendezVousInfo.result);
+              }
+        res
+        .set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+        .render('viewClient', {
+          title: 'Voir le Carnet',
+          medecin: medecin.result,
+                info: {clientInfo}
+        });
+        
+      } else {
+        res.redirect('/')
+      }
+    }
 
     @Post('/emploieDuTemps')
     async emploieDuTempsPost(@Request() req, @Res() res: Response, @Body() info: UpdateEmploieDuTemps) {
